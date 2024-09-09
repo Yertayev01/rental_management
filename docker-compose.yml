@@ -10,7 +10,7 @@ services:
       POSTGRES_USER: rental_user
       POSTGRES_PASSWORD: rental_password
     ports:
-      - "5432:5432"
+      - "5433:5433"
 
   web:
     build: .

@@ -23,3 +23,8 @@ A Django-based REST API for managing a rental business, allowing users to manage
 
 5. **Swagger Documentation. To view the interactive API documentation, navigate to**
     http://localhost:8000/swagger/
+
+docker-compose exec web python manage.py makemigrations rentals
+docker-compose exec web python manage.py migrate
+docker-compose down
+docker-compose up --build
