@@ -10,7 +10,7 @@ class Product(models.Model):
 class Order(models.Model):
     start_date = models.DateField()
     end_date = models.DateField()
-    total_cost = models.DecimalField(max_digits=10, decimal_places=2)
+    total_cost = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
 
     def __str__(self):
         return f"Order {self.id} from {self.start_date} to {self.end_date}"

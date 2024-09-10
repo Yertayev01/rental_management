@@ -1,4 +1,4 @@
-from rest_framework import generics
+from rest_framework import generics, permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.db import transaction
@@ -7,26 +7,30 @@ from .models import Product, Order, OrderProduct
 from .serializers import ProductSerializer, OrderSerializer, OrderProductSerializer
 from django.db.models import Sum, F
 from datetime import datetime
-from django.views.decorators.csrf import csrf_exempt
 
 class OrderListView(generics.ListCreateAPIView):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
 class OrderDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
 class ProductListView(generics.ListCreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
 class ProductDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
 class OrderProductDetailView(generics.RetrieveAPIView):
     serializer_class = OrderProductSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
         order_pk = self.kwargs['order_pk']
@@ -37,6 +41,7 @@ class ProductRentalAmountView(generics.ListAPIView):
     queryset = Product.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['name']
+    permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
         start_date = request.query_params.get('start_date')
@@ -63,6 +68,8 @@ class ProductRentalAmountView(generics.ListAPIView):
         return Response(product_rentals)
 
 class OrderCreateView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
     @transaction.atomic
     def post(self, request, *args, **kwargs):
         order_data = request.data.get('order')
